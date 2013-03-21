@@ -1,7 +1,11 @@
 AoiLib::Application.routes.draw do
+  resources :categories
+
+
   devise_for :users 
 
-  root :to => redirect("/users/sign_in")
+  #root :to => redirect("/users/sign_in")
+  root :to => 'books#index'
   resources :books
 
 
