@@ -1,0 +1,15 @@
+<div class="page-header">
+  <h1><%=@user.name%></h1>
+</div>
+
+<% if @user.fine and @user.fine > 0 %>
+  Please pay Rs.<%=@user.fine%>.
+<%end%>
+
+<% if @user.books.count>0 %>
+  You have <%=@user.books.count %> books
+<%else%>
+  <h4> You have not issued any books. </h4>
+  <br />
+  <%=link_to "Browse Books", books_path, class: 'btn'%>
+<%end%>

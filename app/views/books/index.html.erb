@@ -1,31 +1,15 @@
-<h1>Listing books</h1>
-
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Description</th>
-    <th>User</th>
-    <th>Category</th>
-    <th>Issued on</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<div class="page-header">
+  <h1>Books</h1>
+</div>
 
 <% @books.each do |book| %>
-  <tr>
-    <td><%= book.title %></td>
-    <td><%= book.description %></td>
-    <td><%= book.user_id %></td>
-    <td><%= book.category_id %></td>
-    <td><%= book.issued_on %></td>
-    <td><%= link_to 'Show', book %></td>
-    <td><%= link_to 'Edit', edit_book_path(book) %></td>
-    <td><%= link_to 'Destroy', book, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+  <h5><%= book.title %></h5>
+  <h6>- <%= book.author %>
+  <% if book.issued_on %>
+    <%= book.issued_on %>
+  <%else%>
+    <%= link_to 'Issue', new_book_path, class: "btn pull-right"%>
+  <%end%>
+  </h6>
+  <br \>
 <% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Book', new_book_path %>

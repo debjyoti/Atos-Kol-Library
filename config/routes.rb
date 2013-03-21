@@ -1,11 +1,17 @@
 AoiLib::Application.routes.draw do
-  resources :categories
+  authenticated :user do
+    root :to => 'profiles#show'
+  end
+  root :to => redirect('/users/sign_in')
 
+  get "profiles/show"
+
+  get "profiles/index"
+
+  resources :categories
 
   devise_for :users 
 
-  #root :to => redirect("/users/sign_in")
-  root :to => 'books#index'
   resources :books
 
 
