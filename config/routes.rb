@@ -8,11 +8,13 @@ AoiLib::Application.routes.draw do
 
   get "profiles/index"
 
-  resources :categories
-
   devise_for :users 
 
-  resources :books
+  resources :books do
+    put 'send_request'
+  end
+
+  resources :categories
 
 
   # The priority is based upon order of creation:

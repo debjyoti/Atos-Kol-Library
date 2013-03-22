@@ -8,7 +8,7 @@
   <% if book.issued_on %>
     <%= book.issued_on %>
   <%else%>
-    <%= link_to 'Issue', new_book_path, class: "btn pull-right"%>
+    <%= link_to 'Issue', book_send_request_path(book.id), method: :put, class: "btn pull-right"%>
   <%end%>
   </h6>
   <br \>

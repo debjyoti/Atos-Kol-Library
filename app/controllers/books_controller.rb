@@ -80,4 +80,18 @@ class BooksController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def send_request
+    @book = Book.find(params[:book_id])
+    if(@book.user_id)
+      redirect_to :back, notice: 'Sorry, the book is not available anymore.'
+    else
+      @book.user_id = current_user.id
+      if @book.save
+        redirect_to :back, notice: 'Please go and collect the book.'
+      else
+        redirect_to :back, alert: 'The operation failed. Please inform administrator.'
+      end
+    end
+  end
 end
