@@ -12,6 +12,11 @@ AoiLib::Application.routes.draw do
 
   resources :books do
     put 'send_request'
+    put 'issue_to_user'
+
+    collection do
+      get 'show_pending_approvals'
+    end
   end
 
   resources :categories

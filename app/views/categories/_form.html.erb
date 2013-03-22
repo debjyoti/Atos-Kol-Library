@@ -12,8 +12,11 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %><br />
+    <%= f.label :name, "Category Name" %>
     <%= f.text_field :name %>
+
+    <%= f.label :duration, "Lending Period (Days)" %>
+    <%= f.number_field :duration %>
   </div>
   <div class="actions">
     <%= f.submit %>

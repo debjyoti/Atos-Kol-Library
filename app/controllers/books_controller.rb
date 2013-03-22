@@ -94,4 +94,25 @@ class BooksController < ApplicationController
       end
     end
   end
+
+  def issue_to_user
+    bk = Book.find(params[:book_id])
+    bk.pending_approval = false
+    date_now = DateTime::now()
+    bk.issued_on = date_now
+    bk.expires_on = date_now + bk.category.duration
+    if bk.save
+      redirect_to :back, notice: bk.title+' issued till '+ bk.expires_on.strftime("%d/%m/%Y")+' to '+bk.user.name
+    else
+      redirect_to :back, alert: 'The operation failed. Please inform administrator.'
+    end
+  end
+
+  def show_pending_approvals
+    @books = Book.find_all_by_pending_approval(true)
+    respond_to do |format|
+      format.html # show_pending_approvals.html.erb
+      format.json { render json: @books }
+    end
+  end
 end
