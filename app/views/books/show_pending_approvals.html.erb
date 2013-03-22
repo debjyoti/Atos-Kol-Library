@@ -1,0 +1,9 @@
+<div class="page-header">
+  <h1>Issue Books</h1>
+</div>
+
+<% @books.each do |book| %>
+  <h5><%= book.title %> - <%= book.author %> </h5> 
+  <h6> Requested by <%=book.user.name%> 
+  <%= link_to 'Issue', book_issue_to_user_path(book.id), method: :put, class: "btn pull-right"%></h6>
+<% end %>
