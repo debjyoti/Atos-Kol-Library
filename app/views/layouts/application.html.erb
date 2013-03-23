@@ -26,8 +26,11 @@
                 <li class="dropdown">
                 <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html">Admin <b class="caret"></b></a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                  <li><%= link_to "Manage Books", books_path%>  </li>
-                  <li><%= link_to "Cancel Fines", books_path%>  </li>
+                  <li><%= link_to "Manage Catalog", books_path%>  </li>
+                  <li><%= link_to "Fines", books_path%>  </li>
+                  <li><%= link_to "Lend Books", show_pending_approvals_books_path%>  </li>
+                  <li><%= link_to "Return/Renew Books", show_issued_books_path%>  </li>
+                  <li><%= link_to "Manage Categories", categories_path%>  </li>
                 </ul>
                 </li>
                 <li class="divider-vertical"></li>
