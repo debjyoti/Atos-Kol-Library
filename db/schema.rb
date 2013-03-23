@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130323082926) do
+ActiveRecord::Schema.define(:version => 20130323120610) do
 
   create_table "books", :force => true do |t|
     t.string   "title"
@@ -48,9 +48,13 @@ ActiveRecord::Schema.define(:version => 20130323082926) do
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
     t.string   "name"
-    t.decimal  "fine"
+    t.decimal  "fine",                   :default => 0.0
     t.boolean  "admin",                  :default => false
     t.boolean  "approved",               :default => false, :null => false
+    t.string   "manager"
+    t.string   "phone_number"
+    t.string   "seat_number"
+    t.integer  "max_book_count",         :default => 1
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

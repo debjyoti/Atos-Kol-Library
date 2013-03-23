@@ -13,6 +13,18 @@
   <div><%= f.label :email %>
   <%= f.email_field :email %></div>
 
+  <div><%= f.label :phone_number %>
+  <%= f.text_field :phone_number %></div>
+
+  <div><%= f.label :seat_number %>
+  <%= f.text_field :seat_number %></div>
+
+  <div><%= f.label :manager, "Manager Name" %>
+  <%= f.text_field :manager %></div>
+
+  <div><%= f.label :max_book_count %>
+  <%= f.number_field :max_book_count %></div>
+
   <div><%= f.submit "Update" %></div>
 <% end %>
 

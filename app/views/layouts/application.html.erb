@@ -36,7 +36,13 @@
                 </li>
                 <li class="divider-vertical"></li>
               <% end%>
-              <li><%= link_to "Home", root_path %> </li>
+                <li class="dropdown">
+                <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html"><%=current_user.name%><b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                  <li><%= link_to "My Home", root_path %> </li>
+                  <li><%= link_to "Edit Account", edit_user_registration_path%>  </li>
+                </ul>
+                </li>
               <li class="divider-vertical"></li>
               <li><%= link_to "Books", books_path %> </li>
               <li class="divider-vertical"></li>

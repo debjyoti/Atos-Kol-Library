@@ -18,6 +18,15 @@
   <div><%= f.label :password_confirmation %>
   <%= f.password_field :password_confirmation %></div>
 
+  <div><%= f.label :phone_number %>
+  <%= f.text_field :phone_number %></div>
+
+  <div><%= f.label :seat_number %>
+  <%= f.text_field :seat_number %></div>
+
+  <div><%= f.label :manager, "Manager Name" %>
+  <%= f.text_field :manager %></div>
+
   <div><%= f.submit "Sign up" %></div>
 <% end %>
 
