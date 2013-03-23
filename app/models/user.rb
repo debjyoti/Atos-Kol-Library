@@ -10,4 +10,17 @@ class User < ActiveRecord::Base
   # attr_accessible :title, :body
   has_many :books
   validates :name, presence: true
+
+  def active_for_authentication?
+    super && approved?
+  end
+
+  def inactive_message
+    if !approved?
+      :not_approved
+    else
+      super
+    end
+  end
+
 end

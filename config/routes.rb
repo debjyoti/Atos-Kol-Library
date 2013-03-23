@@ -4,10 +4,10 @@ AoiLib::Application.routes.draw do
   end
   root :to => redirect('/users/sign_in')
 
-  get "profiles/show"
-
-  get "profiles/index"
-
+  resources :profiles, :except => [:new, :create] do
+    put 'approve_user'
+    put 'toggle_admin_rights'
+  end
   devise_for :users 
 
   resources :books do
