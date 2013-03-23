@@ -1,16 +1,18 @@
 class ProfilesController < ApplicationController
   def show
    @user = current_user 
+   @user_admin = current_user.admin
   end
 
   def index
     @unapproved_users = User.find_all_by_approved(false)
-    @users = User.find_all_by_approved(true)
+    @users = current_user.members
   end
 
   def approve_user
     usr = User.find(params[:profile_id])
     usr.approved = true
+    usr.admin_id = current_user.id
     if(usr.save)
       redirect_to :back, notice: 'User '+usr.name+ ' approved.'
     else

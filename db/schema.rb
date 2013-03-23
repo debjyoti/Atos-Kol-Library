@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130323120610) do
+ActiveRecord::Schema.define(:version => 20130323141813) do
 
   create_table "books", :force => true do |t|
     t.string   "title"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(:version => 20130323120610) do
     t.string   "phone_number"
     t.string   "seat_number"
     t.integer  "max_book_count",         :default => 1
+    t.integer  "admin_id"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

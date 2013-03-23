@@ -13,3 +13,16 @@
   <br />
   <%=link_to "Browse Books", books_path, class: 'btn'%>
 <%end%>
+
+<% content_for :right_side_panel do %>
+  <br \><br \>
+  <% if @user_admin %>
+    <div class="well">
+      <h4> Your Admin: </h4>
+      <h5> <%= @user_admin.name %> </h5>
+      <h5> <%= @user_admin.email.gsub('@',' AT ') %> </h5>
+      <h5> Phone: <%= @user_admin.phone_number %> </h5>
+      <h5> Location: <%= @user_admin.seat_number %> </h5>
+    </div>
+  <%end%>
+<%end%>

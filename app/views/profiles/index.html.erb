@@ -32,7 +32,8 @@
 <%end%>
 
 
-<h4> All Users: </h4>
+<% if @users.count > 0 %>
+  <h4> My Members: </h4>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -62,3 +63,6 @@
       <%end%>
     </tbody>
   </table>
+<%else%>
+  <h5> You do not have any members yet. Approve a new user to become their administrator. </h5>
+<%end%>

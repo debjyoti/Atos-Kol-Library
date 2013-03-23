@@ -9,7 +9,10 @@ class User < ActiveRecord::Base
   attr_accessible :das_id, :email, :password, :password_confirmation, :remember_me, :name, :phone_number, :manager, :max_book_count, :seat_number
   # attr_accessible :title, :body
   has_many :books
-  validates :name, presence: true
+  validates :name, :das_id, :email, presence: true
+
+  has_many :members, :class_name => "User", :foreign_key => "admin_id"
+  belongs_to :admin, :class_name => "User"
 
   def active_for_authentication?
     super && approved?
