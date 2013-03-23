@@ -4,9 +4,14 @@
 
 <% @books.each do |book| %>
   <h5><%= book.title %></h5>
-  <h6>- <%= book.author %>
-  <% if book.issued_on %>
-    <%= book.issued_on %>
+  <h6>- <%= book.author %>. 
+  <% if book.user_id %>
+    (With <%= book.user.name %> till <%= book.expires_on %>)
+    <% if book.user_id == current_user.id %>
+      <%= link_to 'Renew', book_renew_duration_path(book.id), method: :put, class: "btn pull-right"%>
+    <% else %>
+      <%= link_to 'Block', book_path(book.id), class: "btn pull-right"%>
+    <%end%>
   <%else%>
     <%= link_to 'Request', book_send_request_path(book.id), method: :put, class: "btn pull-right"%>
   <%end%>

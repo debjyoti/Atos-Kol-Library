@@ -13,9 +13,13 @@ AoiLib::Application.routes.draw do
   resources :books do
     put 'send_request'
     put 'issue_to_user'
+    put 'return_to_library'
+    put 'cancel_request'
+    put 'renew_duration'
 
     collection do
       get 'show_pending_approvals'
+      get 'show_issued'
     end
   end
 

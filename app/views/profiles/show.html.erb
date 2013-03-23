@@ -9,7 +9,7 @@
 <% if @user.books.count>0 %>
   You have <%=@user.books.count %> books
 <%else%>
-  <h4> You have not issued any books. </h4>
+  <h4> You have not borrowed any books. </h4>
   <br />
   <%=link_to "Browse Books", books_path, class: 'btn'%>
 <%end%>

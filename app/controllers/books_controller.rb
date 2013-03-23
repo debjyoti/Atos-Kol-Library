@@ -2,7 +2,7 @@ class BooksController < ApplicationController
   # GET /books
   # GET /books.json
   def index
-    @books = Book.all
+    @books = Book.order(:title)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -82,13 +82,15 @@ class BooksController < ApplicationController
   end
 
   def send_request
-    @book = Book.find(params[:book_id])
-    if(@book.user_id)
+    bk = Book.find(params[:book_id])
+    if(bk.user_id)
       redirect_to :back, notice: 'Sorry, the book is not available anymore.'
     else
-      @book.user_id = current_user.id
-      if @book.save
-        redirect_to :back, notice: 'Please go and collect the book.'
+      bk.user_id = current_user.id
+      bk.pending_approval = true
+      bk.expires_on = DateTime::now() + bk.category.duration
+      if bk.save
+        redirect_to :back, notice: 'Please collect the book.'
       else
         redirect_to :back, alert: 'The operation failed. Please inform administrator.'
       end
@@ -100,11 +102,54 @@ class BooksController < ApplicationController
     bk.pending_approval = false
     date_now = DateTime::now()
     bk.issued_on = date_now
-    bk.expires_on = date_now + bk.category.duration
     if bk.save
       redirect_to :back, notice: bk.title+' issued till '+ bk.expires_on.strftime("%d/%m/%Y")+' to '+bk.user.name
     else
       redirect_to :back, alert: 'The operation failed. Please inform administrator.'
+    end
+  end
+
+  def renew_duration
+    bk = Book.find(params[:book_id])
+    bk.expires_on = DateTime::now() + bk.category.duration
+    if bk.save
+      redirect_to :back, notice: bk.title+' renewed till '+ bk.expires_on.strftime("%d/%m/%Y")+'.'
+    else
+      redirect_to :back, alert: 'The operation failed. Please inform administrator.'
+    end
+  end
+
+  def cancel_request
+    bk = Book.find(params[:book_id])
+    bk.user_id = nil
+    bk.issued_on = nil
+    bk.expires_on = nil
+    bk.pending_approval = false
+    if bk.save
+      redirect_to :back, notice: 'Request for '+bk.title+' has been canceled'
+    else
+      redirect_to :back, alert: 'Error occurred. Please inform administrator.'
+    end
+  end
+
+  def return_to_library
+    bk = Book.find(params[:book_id])
+    bk.user_id = nil
+    bk.issued_on = nil
+    bk.expires_on = nil
+    bk.pending_approval = false
+    if bk.save
+      redirect_to :back, notice: 'Book '+bk.title+' has been returned to library.'
+    else
+      redirect_to :back, alert: 'Error occurred. Please inform administrator.'
+    end
+  end
+
+  def show_issued
+    @books = Book.where("user_id is not null").order(:title)
+    respond_to do |format|
+      format.html # show_issued_books.html.erb
+      format.json { render json: @books }
     end
   end
 
