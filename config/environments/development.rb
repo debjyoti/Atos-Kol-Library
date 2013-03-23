@@ -36,4 +36,15 @@ AoiLib::Application.configure do
   config.assets.debug = true
 
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+
+  config.action_mailer.smtp_settings = {
+    :enable_starttls_auto => true,  
+    :address            => 'smtp.gmail.com',
+    :port               => 587,
+    #:tls                  => true,
+    :domain             => 'google.com', #you can also use google.com
+    :authentication     => :plain,
+    :user_name          => ENV["EMAIL_ID"],
+    :password           => ENV["EMAIL_PWD"]
+  }
 end

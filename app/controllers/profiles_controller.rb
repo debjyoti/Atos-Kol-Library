@@ -14,6 +14,7 @@ class ProfilesController < ApplicationController
     usr.approved = true
     usr.admin_id = current_user.id
     if(usr.save)
+      UserMailer.account_activation_notify(usr.email).deliver
       redirect_to :back, notice: 'User '+usr.name+ ' approved.'
     else
       redirect_to :back, alert: usr.errors

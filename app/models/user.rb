@@ -9,7 +9,8 @@ class User < ActiveRecord::Base
   attr_accessible :das_id, :email, :password, :password_confirmation, :remember_me, :name, :phone_number, :manager, :max_book_count, :seat_number
   # attr_accessible :title, :body
   has_many :books
-  validates :name, :das_id, :email, presence: true
+  validates :name, presence: true
+  validates :das_id, presence: true, uniqueness: true
 
   has_many :members, :class_name => "User", :foreign_key => "admin_id"
   belongs_to :admin, :class_name => "User"
@@ -24,6 +25,11 @@ class User < ActiveRecord::Base
     else
       super
     end
+  end
+
+  after_create :send_admin_mail
+  def send_admin_mail
+    UserMailer.approval_notify(self).deliver
   end
 
 end

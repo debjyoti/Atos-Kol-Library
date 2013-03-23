@@ -90,6 +90,7 @@ class BooksController < ApplicationController
       bk.pending_approval = true
       bk.expires_on = DateTime::now() + bk.category.duration
       if bk.save
+        UserMailer.book_request_notify(bk.title, bk.user.name, current_user.admin.email).deliver
         redirect_to :back, notice: 'Please collect the book.'
       else
         redirect_to :back, alert: 'The operation failed. Please inform administrator.'
@@ -134,11 +135,13 @@ class BooksController < ApplicationController
 
   def return_to_library
     bk = Book.find(params[:book_id])
+    to_email = bk.user.email
     bk.user_id = nil
     bk.issued_on = nil
     bk.expires_on = nil
     bk.pending_approval = false
     if bk.save
+      UserMailer.book_return_notify(to_email, bk.title).deliver
       redirect_to :back, notice: 'Book '+bk.title+' has been returned to library.'
     else
       redirect_to :back, alert: 'Error occurred. Please inform administrator.'
