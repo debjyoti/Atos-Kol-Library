@@ -3,7 +3,7 @@ class UserMailer < ActionMailer::Base
 
   def approval_notify(user)
     @user = user
-    admins = User.find_all_by_admin(true).map(&:email)
+    admins = User.find_all_by_is_admin(true).map(&:email)
     mail(:to => admins, :subject => "New user waiting for approval")
   end
 
