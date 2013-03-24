@@ -1,12 +1,34 @@
 class BooksController < ApplicationController
   # GET /books
   # GET /books.json
+
+  SELECT_PROMPT = 'Select Category'
+
   def index
     @books = Book.order(:title)
+    set_up_category_selection
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @books }
+    end
+  end
+
+  def filter_category
+    @selected_category = params[:category_name]
+    if(@selected_category == 'All' or @selected_category == SELECT_PROMPT)
+      @books = Book.order(:title)
+    else
+      cat = Category.find_by_name(params[:category_name])
+      #assumption: category_name will always exist in category table
+      @books = cat.books.order(:title)
+    end
+    @category_list = Category.pluck(:name)
+    @category_list << 'All'
+
+    respond_to do |format|
+      format.html { render action: "index" }
+      format.json { render json: @articles }
     end
   end
 
@@ -162,5 +184,13 @@ class BooksController < ApplicationController
       format.html # show_pending_approvals.html.erb
       format.json { render json: @books }
     end
+  end
+
+  private
+
+  def set_up_category_selection
+    @category_list = Category.pluck(:name)
+    @category_list << SELECT_PROMPT
+    @selected_category = SELECT_PROMPT
   end
 end

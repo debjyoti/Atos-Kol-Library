@@ -2,6 +2,14 @@
   <h1>Books</h1>
 </div>
 
+<%= form_tag filter_category_books_path do%>
+  <%if @category_list.count == 1 %>
+    <%=select_tag(:category_name, options_for_select(@category_list, @selected_category), {disabled: 'true'})%>
+  <%else%>
+    <%= select_tag(:category_name, options_for_select(@category_list, @selected_category), {onchange: 'this.form.submit();'})%>
+  <%end%>
+<%end%>
+
 <% @books.each do |book| %>
   <div class="well">
     <h5><%= book.title %>
