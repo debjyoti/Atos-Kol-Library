@@ -1,4 +1,7 @@
 class ProfilesController < ApplicationController
+
+  before_filter :authorize, except: [:show]
+
   def show
    @user = current_user 
    @user_admin = current_user.admin

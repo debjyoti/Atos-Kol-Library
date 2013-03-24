@@ -2,6 +2,8 @@ class BooksController < ApplicationController
   # GET /books
   # GET /books.json
 
+  before_filter :authorize, except: [:index, :filter_category, :show, :send_request, :renew_duration]
+
   SELECT_PROMPT = 'Select Category'
 
   def index

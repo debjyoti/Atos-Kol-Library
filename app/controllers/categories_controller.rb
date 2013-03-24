@@ -1,6 +1,9 @@
 class CategoriesController < ApplicationController
   # GET /categories
   # GET /categories.json
+  
+  before_filter :authorize
+
   def index
     @categories = Category.all
 
@@ -84,4 +87,5 @@ class CategoriesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
 end
