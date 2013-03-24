@@ -52,7 +52,7 @@
           <td><%=usr.email%></td>
           <td><%= link_to 'Details', edit_profile_path(usr.id), class: "btn pull-right"%></td>
           <td>
-            <% unless usr.admin? %>
+            <% unless usr.is_admin? %>
               <%= link_to 'Make Admin', profile_toggle_admin_rights_path(usr.id), method: :put, class: "btn pull-right"%>
             <% else%>
               <%= link_to 'Revoke', profile_toggle_admin_rights_path(usr.id), method: :put, class: "btn pull-right"%>

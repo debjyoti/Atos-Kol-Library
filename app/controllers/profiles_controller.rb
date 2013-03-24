@@ -40,12 +40,17 @@ class ProfilesController < ApplicationController
       redirect_to :back, alert: 'Can not change admin rights of own user.'
       return
     end
-    unless usr.admin?
-      usr.admin = true
+    unless usr.is_admin?
+      usr.is_admin = true
       notice_text= 'Admin right given to user '+usr.name
     else
-      usr.admin = false
-      notice_text= 'Admin right revoked from user '+usr.name
+      if(usr.members.count > 0)
+        redirect_to :back, alert: 'There are members allocated to this admin. Can not revoke rights.'
+        return
+      else
+        usr.is_admin = false
+        notice_text= 'Admin right revoked from user '+usr.name
+      end
     end
     if usr.save
       redirect_to :back, notice: notice_text
