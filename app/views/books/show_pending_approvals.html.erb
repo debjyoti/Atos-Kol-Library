@@ -1,10 +1,28 @@
 <div class="page-header">
-  <h1>Pending Requests</h1>
+  <h1>Book Requests</h1>
 </div>
 
-<% @books.each do |book| %>
-  <h5><%= book.title %> - <%= book.author %> </h5> 
-  <h6> Requested by <%=book.user.name%> 
-  <%= link_to 'Issue', book_issue_to_user_path(book.id), method: :put, class: "btn pull-right"%></h6>
-  <%= link_to 'Cancel', book_cancel_request_path(book.id), method: :put, class: "btn pull-right"%></h6>
-<% end %>
+<% if @books.count > 0 %>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th><strong>TITLE</strong></th>
+        <th><strong>REQUESTED BY</strong></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @books.each do |book| %>
+        <tr>
+          <td> <h5><%= book.title %></h5> </td>
+          <td> <h5><%=book.user.name%> </h5></td>
+          <td> <h5><%= link_to 'Issue', book_issue_to_user_path(book.id), method: :put, class: "btn"%></h5></td>
+          <td> <h5><%= link_to 'Cancel', book_cancel_request_path(book.id), method: :put, class: "btn"%></h5></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<%else%>
+  <h4> There are no new requests at this time. </h4>
+<%end%>

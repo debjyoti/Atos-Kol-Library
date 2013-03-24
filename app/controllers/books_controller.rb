@@ -32,6 +32,15 @@ class BooksController < ApplicationController
     end
   end
 
+  def manage
+    @books = Book.order(:id)
+
+    respond_to do |format|
+      format.html # manage.html.erb
+      format.json { render json: @books }
+    end
+  end
+
   # GET /books/1
   # GET /books/1.json
   def show
@@ -66,7 +75,7 @@ class BooksController < ApplicationController
 
     respond_to do |format|
       if @book.save
-        format.html { redirect_to @book, notice: 'Book was successfully created.' }
+        format.html { redirect_to manage_books_path, notice: 'Book was successfully created.' }
         format.json { render json: @book, status: :created, location: @book }
       else
         format.html { render action: "new" }
@@ -82,7 +91,7 @@ class BooksController < ApplicationController
 
     respond_to do |format|
       if @book.update_attributes(params[:book])
-        format.html { redirect_to @book, notice: 'Book was successfully updated.' }
+        format.html { redirect_to manage_books_path, notice: 'Book was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -98,7 +107,7 @@ class BooksController < ApplicationController
     @book.destroy
 
     respond_to do |format|
-      format.html { redirect_to books_url }
+      format.html { redirect_to manage_books_url }
       format.json { head :no_content }
     end
   end
@@ -171,7 +180,7 @@ class BooksController < ApplicationController
   end
 
   def show_issued
-    @books = Book.where("user_id is not null").order(:title)
+    @books = Book.where("user_id is not null and pending_approval is false").order(:title)
     respond_to do |format|
       format.html # show_issued_books.html.erb
       format.json { render json: @books }

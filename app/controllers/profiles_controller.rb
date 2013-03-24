@@ -69,6 +69,10 @@ class ProfilesController < ApplicationController
       redirect_to :back, alert: 'Can not delete admin user as there are allocated members.'
       return
     end
+    if(usr.books.count > 0)
+      redirect_to :back, alert: 'Can not delete user as there are books lent to him.'
+      return
+    end
     name = usr.name
     usr.destroy
     redirect_to :back, notice: 'User '+name+' removed'

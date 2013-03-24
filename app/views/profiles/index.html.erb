@@ -40,6 +40,7 @@
         <th>Name</th>
         <th>Das-Id</th>
         <th>Email</th>
+        <th>Books</th>
         <th></th>
         <th></th>
       </tr>
@@ -50,6 +51,7 @@
           <td><%=usr.name%></td>
           <td><%=usr.das_id%></td>
           <td><%=usr.email%></td>
+          <td><%=usr.books.count%></td>
           <td><%= link_to 'Details', edit_profile_path(usr.id), class: "btn pull-right"%></td>
           <td>
             <% unless usr.is_admin? %>
