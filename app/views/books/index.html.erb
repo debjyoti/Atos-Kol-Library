@@ -14,7 +14,7 @@
   <div class="well">
     <h5><%= book.title %>
   <% if book.user_id %>
-    <div class="pull-right">with <%= book.user.name %> till <%= book.expires_on %></div>
+    <div class="pull-right"> <i class="icon-user"></i> <%= book.user.name %> till <%= book.expires_on %></div>
   <%end%>
     </h5>
   <h6>- <%= book.author %>. 
