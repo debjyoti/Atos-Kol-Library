@@ -2,7 +2,7 @@ class BooksController < ApplicationController
   # GET /books
   # GET /books.json
 
-  before_filter :authorize, except: [:index, :filter_category, :show, :send_request, :renew_duration]
+  before_filter :authorize, except: [:index, :filter_category, :show, :send_request, :renew_duration, :block_for_future, :unblock]
 
   SELECT_PROMPT = 'Select Category'
 
@@ -142,6 +142,20 @@ class BooksController < ApplicationController
       else
         redirect_to :back, alert: bk.errors
       end
+    end
+  end
+
+  def unblock
+    bk = Book.find(params[:book_id])
+    if(current_user.id == bk.blocked_by_id)
+      bk.blocked_by_id = nil
+      if bk.save
+        redirect_to :back, notice: 'The book is unblocked.'
+      else
+        redirect_to :back, alert: bk.errors
+      end
+    else
+      redirect_to :back, alert: 'You are trying something funny. This will be reported.'
     end
   end
 

@@ -30,6 +30,28 @@
   <br />
 <%end%>
 <br />
+
+<% if @user.blocked_books.count>0 %>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th><strong>BLOCKED BOOKS</strong></th>
+        <th><strong>EXPECTED DATE</strong></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%@user.blocked_books.each do |book| %>
+        <tr>
+          <td><h5><%=book.title%></h5></td>
+          <td><h5><%= book.expires_on %></h5></td>
+          <td><h5><%= link_to 'Unblock', book_unblock_path(book.id), method: :put, class: "btn"%></h5></td>
+        </tr>
+      <% end%>
+    </tbody>
+  </table>
+  <br />
+<%end%>
 <%=link_to "Browse Books", books_path, class: 'btn'%>
 
 <% content_for :right_side_panel do %>

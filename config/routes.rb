@@ -17,6 +17,7 @@ AoiLib::Application.routes.draw do
     put 'cancel_request'
     put 'renew_duration'
     put 'block_for_future'
+    put 'unblock'
 
     collection do
       get 'manage'
