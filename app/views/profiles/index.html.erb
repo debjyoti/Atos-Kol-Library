@@ -55,7 +55,7 @@
             <% unless usr.admin? %>
               <%= link_to 'Make Admin', profile_toggle_admin_rights_path(usr.id), method: :put, class: "btn pull-right"%>
             <% else%>
-              <%= link_to 'Revoke Admin', profile_toggle_admin_rights_path(usr.id), method: :put, class: "btn pull-right"%>
+              <%= link_to 'Revoke', profile_toggle_admin_rights_path(usr.id), method: :put, class: "btn pull-right"%>
             <%end%>
           </td>
           <td><%= link_to 'Delete', profile_path(usr.id), method: :delete, class: "btn pull-right"%></td>

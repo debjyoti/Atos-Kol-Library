@@ -3,26 +3,45 @@
 </div>
 
 <% if @user.fine and @user.fine > 0 %>
-  Please pay Rs.<%=@user.fine%>.
+  <h4>Please pay a fine of Rs.<%=@user.fine%> to admin.</h4><br />
 <%end%>
 
 <% if @user.books.count>0 %>
-  You have <%=@user.books.count %> books
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th><h5>BORROWED BOOKS</h5></th>
+        <th><h5>DUE DATE</h5></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%@user.books.each do |book| %>
+        <tr>
+          <td><h5><%=book.title%></h5></td>
+          <td><h5><%= book.expires_on %></h5></td>
+          <td><h5><%= link_to 'Renew', book_renew_duration_path(book.id), method: :put, class: "btn"%></h5></td>
+        </tr>
+      <% end%>
+    </tbody>
+  </table>
 <%else%>
   <h4> You have not borrowed any books. </h4>
   <br />
-  <%=link_to "Browse Books", books_path, class: 'btn'%>
 <%end%>
+<br />
+<%=link_to "Browse Books", books_path, class: 'btn'%>
 
 <% content_for :right_side_panel do %>
   <br \><br \>
   <% if @user_admin %>
     <div class="well">
       <h4> Your Admin: </h4>
-      <h5> <%= @user_admin.name %> </h5>
-      <h5> <%= @user_admin.email.gsub('@',' AT ') %> </h5>
-      <h5> Phone: <%= @user_admin.phone_number %> </h5>
-      <h5> Location: <%= @user_admin.seat_number %> </h5>
+      <hr>
+      <h6> <%= @user_admin.name %> </h6>
+      <h6> <%= @user_admin.email.gsub('@',' AT ') %> </h6>
+      <h6> Phone: <%= @user_admin.phone_number %> </h6>
+      <h6> Location: <%= @user_admin.seat_number %> </h6>
     </div>
   <%end%>
 <%end%>
