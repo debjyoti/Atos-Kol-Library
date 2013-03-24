@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  after_create :send_admin_mail
+  #after_create :send_admin_mail
   def send_admin_mail
     UserMailer.approval_notify(self).deliver
   end
