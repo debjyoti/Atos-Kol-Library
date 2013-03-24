@@ -131,6 +131,20 @@ class BooksController < ApplicationController
     end
   end
 
+  def block_for_future
+    bk = Book.find(params[:book_id])
+    if(bk.blocked_by_id)
+      redirect_to :back, notice: 'Sorry, the book is already blocked by '+bk.blocked_by.name+'.'
+    else
+      bk.blocked_by_id = current_user.id
+      if bk.save
+        redirect_to :back, notice: 'The book is blocked for you. You will be notified when it becomes available.'
+      else
+        redirect_to :back, alert: bk.errors
+      end
+    end
+  end
+
   def issue_to_user
     bk = Book.find(params[:book_id])
     bk.pending_approval = false
@@ -145,11 +159,15 @@ class BooksController < ApplicationController
 
   def renew_duration
     bk = Book.find(params[:book_id])
-    bk.expires_on = DateTime::now() + bk.category.duration
-    if bk.save
-      redirect_to :back, notice: bk.title+' renewed till '+ bk.expires_on.strftime("%d/%m/%Y")+'.'
+    if(bk.blocked_by_id)
+      redirect_to :back, alert: 'Can not be renewed as the book is blocked by '+bk.blocked_by.name+'.'
     else
-      redirect_to :back, alert: 'The operation failed. Please inform administrator.'
+      bk.expires_on = DateTime::now() + bk.category.duration
+      if bk.save
+        redirect_to :back, notice: bk.title+' renewed till '+ bk.expires_on.strftime("%d/%m/%Y")+'.'
+      else
+        redirect_to :back, alert: 'The operation failed. Please inform administrator.'
+      end
     end
   end
 
@@ -159,6 +177,10 @@ class BooksController < ApplicationController
     bk.issued_on = nil
     bk.expires_on = nil
     bk.pending_approval = false
+    if bk.blocked_by_id
+      UserMailer.book_availibility_notify(bk.blocked_by.email, bk.title).deliver
+      bk.blocked_by_id = nil
+    end
     if bk.save
       redirect_to :back, notice: 'Request for '+bk.title+' has been canceled'
     else
@@ -173,6 +195,10 @@ class BooksController < ApplicationController
     bk.issued_on = nil
     bk.expires_on = nil
     bk.pending_approval = false
+    if bk.blocked_by_id
+      UserMailer.book_availibility_notify(bk.blocked_by.email, bk.title).deliver
+      bk.blocked_by_id = nil
+    end
     if bk.save
       UserMailer.book_return_notify(to_email, bk.title).deliver
       redirect_to :back, notice: 'Book '+bk.title+' has been returned to library.'

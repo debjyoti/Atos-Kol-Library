@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   attr_accessible :das_id, :email, :password, :password_confirmation, :remember_me, :name, :phone_number, :manager, :max_book_count, :seat_number
   # attr_accessible :title, :body
   has_many :books
+  has_many :blocked_books, class_name: "Book", foreign_key: "blocked_by_id"
   validates :name, presence: true
   validates :das_id, presence: true, uniqueness: true
 

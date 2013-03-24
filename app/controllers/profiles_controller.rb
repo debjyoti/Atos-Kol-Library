@@ -76,6 +76,10 @@ class ProfilesController < ApplicationController
       redirect_to :back, alert: 'Can not delete user as there are books lent to him.'
       return
     end
+    if(usr.blocked_books.count > 0)
+      redirect_to :back, alert: 'Can not delete user as there are books that he has blocked.'
+      return
+    end
     name = usr.name
     usr.destroy
     redirect_to :back, notice: 'User '+name+' removed'

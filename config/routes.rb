@@ -16,6 +16,7 @@ AoiLib::Application.routes.draw do
     put 'return_to_library'
     put 'cancel_request'
     put 'renew_duration'
+    put 'block_for_future'
 
     collection do
       get 'manage'
