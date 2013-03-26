@@ -2,7 +2,7 @@
   <h1>Books</h1>
 </div>
 
-<%= form_tag filter_category_books_path do%>
+<%= form_tag filter_category_books_path, method: :get do%>
   <%if @category_list.count == 1 %>
     <%=select_tag(:category_name, options_for_select(@category_list, @selected_category), {disabled: 'true'})%>
   <%else%>

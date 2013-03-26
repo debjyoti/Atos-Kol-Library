@@ -23,7 +23,7 @@ AoiLib::Application.routes.draw do
       get 'manage'
       get 'show_pending_approvals'
       get 'show_issued'
-      post 'filter_category'
+      get 'filter_category'
     end
   end
 
