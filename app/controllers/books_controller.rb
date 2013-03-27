@@ -118,6 +118,8 @@ class BooksController < ApplicationController
     bk = Book.find(params[:book_id])
     if(bk.user_id)
       redirect_to :back, notice: 'Sorry, the book is not available anymore.'
+    elsif(current_user.fine > 2)
+      redirect_to :back, notice: 'You must clear your fine of Rs.'+current_user.fine.to_s+' before requesting for new books.'
     else
       bk.user_id = current_user.id
       bk.pending_approval = true
@@ -135,6 +137,8 @@ class BooksController < ApplicationController
     bk = Book.find(params[:book_id])
     if(bk.blocked_by_id)
       redirect_to :back, notice: 'Sorry, the book is already blocked by '+bk.blocked_by.name+'.'
+    elsif(current_user.fine > 2)
+      redirect_to :back, notice: 'You must clear your fine of Rs.'+current_user.fine.to_s+' before blocking books.'
     else
       bk.blocked_by_id = current_user.id
       if bk.save
@@ -175,6 +179,8 @@ class BooksController < ApplicationController
     bk = Book.find(params[:book_id])
     if(bk.blocked_by_id)
       redirect_to :back, alert: 'Can not be renewed as the book is blocked by '+bk.blocked_by.name+'.'
+    elsif(bk.user.fine > 2)
+      redirect_to :back, notice: 'Sorry. Fine of Rs.'+current_user.fine.to_s+' must be paid before renewing books.'
     else
       bk.expires_on = DateTime::now() + bk.category.duration
       if bk.save
