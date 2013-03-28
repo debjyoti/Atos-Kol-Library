@@ -26,4 +26,16 @@ class UserMailer < ActionMailer::Base
     @book_name = book_name
     mail(:to => to_email, :subject => "Book '"+book_name+"' is available.")
   end
+
+  def fine_notify(to_email, fine_amount, book_name)
+    @fine_amount = fine_amount
+    @book_name = book_name
+    mail(:to => to_email, :subject => "IMPORTANT! Library Defaulter.")
+  end
+
+  def due_date_notify(to_email, book_name, book_due_date)
+    @book_name = book_name
+    @book_due_date = book_due_date
+    mail(:to => to_email, :subject => "Reminder: Book '"+book_name+"' due date is approaching.")
+  end
 end
