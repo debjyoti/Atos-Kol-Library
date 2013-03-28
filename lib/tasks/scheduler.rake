@@ -1,5 +1,6 @@
-desc "This task is called upon by heroku scheduler add-on"
+desc "This task is called upon by heroku scheduler add-on for applying fine and sending reminders"
 task :check_due_date => :environment do
+  puts "Start check_due_date task"
   books= Book.where("user_id is not null")
   books.each do |book|
     if(book.expires_on < (DateTime::now()-1)) then
@@ -16,4 +17,5 @@ task :check_due_date => :environment do
       UserMailer.due_date_notify(book.user.email, book.title, book.expires_on.to_s).deliver
     end
   end
+  puts "End check_due_date task"
 end
