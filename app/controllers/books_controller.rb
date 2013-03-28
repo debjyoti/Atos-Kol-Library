@@ -125,6 +125,7 @@ class BooksController < ApplicationController
       bk.pending_approval = true
       bk.expires_on = DateTime::now() + bk.category.duration
       if bk.save
+        bk.book_issue_histories.create(user_id: current_user.id, requested_on: DateTime::now())
         UserMailer.book_request_notify(bk.title, bk.user.name, current_user.admin.email).deliver
         redirect_to :back, notice: 'Please collect the book.'
       else
@@ -168,7 +169,9 @@ class BooksController < ApplicationController
     bk.pending_approval = false
     date_now = DateTime::now()
     bk.issued_on = date_now
-    if bk.save
+    hist = bk.book_issue_histories.where("user_id = ? and issued_on is null", bk.user_id)
+    hist[0].issued_on = date_now
+    if (bk.save and hist[0].save)
       redirect_to :back, notice: bk.title+' issued till '+ bk.expires_on.strftime("%d/%m/%Y")+' to '+bk.user.name
     else
       redirect_to :back, alert: 'The operation failed. Please inform administrator.'
@@ -210,7 +213,12 @@ class BooksController < ApplicationController
 
   def return_to_library
     bk = Book.find(params[:book_id])
+    #set history table data
+    hist = bk.book_issue_histories.where("user_id = ? and returned_on is null", bk.user_id)
+    hist[0].returned_on = DateTime::now()
+    #set email id
     to_email = bk.user.email
+    #finally make everything nil
     bk.user_id = nil
     bk.issued_on = nil
     bk.expires_on = nil
@@ -219,7 +227,7 @@ class BooksController < ApplicationController
       UserMailer.book_availibility_notify(bk.blocked_by.email, bk.title).deliver
       bk.blocked_by_id = nil
     end
-    if bk.save
+    if (bk.save and hist[0].save)
       UserMailer.book_return_notify(to_email, bk.title).deliver
       redirect_to :back, notice: 'Book '+bk.title+' has been returned to library.'
     else

@@ -16,6 +16,8 @@ class User < ActiveRecord::Base
   has_many :members, :class_name => "User", :foreign_key => "admin_id"
   belongs_to :admin, :class_name => "User"
 
+  has_many :book_issue_histories
+
   def active_for_authentication?
     super && approved?
   end
