@@ -5,6 +5,10 @@ class ProfilesController < ApplicationController
   def show
    @user = current_user 
    @user_admin = current_user.admin
+   if current_user.is_admin?
+    @unapproved_users_count = User.where("approved = false").count
+    @books_to_lend_count = Book.where("pending_approval = true").count
+   end
   end
 
   def index

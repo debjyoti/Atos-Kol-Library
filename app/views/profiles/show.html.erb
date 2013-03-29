@@ -2,6 +2,19 @@
   <h1><%=@user.name%></h1>
 </div>
 
+<% if @user.is_admin? %>
+  <% if (@unapproved_users_count>0 or @books_to_lend_count>0) %>
+    <strong>~ PENDING ADMIN TASKS ~</strong>
+    <% if @unapproved_users_count > 0 %>
+      <h5><%= link_to pluralize(@unapproved_users_count, 'user', 'users')+" to approve", profiles_path%></h5>
+    <%end%>
+    <% if @books_to_lend_count > 0 %>
+      <h5><%= link_to pluralize(@books_to_lend_count, 'book', 'books')+" to lend", show_pending_approvals_books_path%></h5>
+    <%end%>
+    <br/>
+  <%end%>
+<%end%>
+
 <% if @user.fine and @user.fine > 0 %>
   <h4>Please pay a fine of Rs.<%=@user.fine%> to admin.</h4><br />
 <%end%>

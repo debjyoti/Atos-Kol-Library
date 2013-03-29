@@ -169,6 +169,7 @@ class BooksController < ApplicationController
     bk.pending_approval = false
     date_now = DateTime::now()
     bk.issued_on = date_now
+    #assumption: record in book_issue_history will always get created during book request
     hist = bk.book_issue_histories.where("user_id = ? and issued_on is null", bk.user_id)
     hist[0].issued_on = date_now
     if (bk.save and hist[0].save)
@@ -213,7 +214,7 @@ class BooksController < ApplicationController
 
   def return_to_library
     bk = Book.find(params[:book_id])
-    #set history table data
+    #assumption: record in book_issue_history will always get created during book request
     hist = bk.book_issue_histories.where("user_id = ? and returned_on is null", bk.user_id)
     hist[0].returned_on = DateTime::now()
     #set email id
