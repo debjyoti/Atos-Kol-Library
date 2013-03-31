@@ -50,7 +50,7 @@
         <tr>
           <td><%=usr.name%></td>
           <td><%=usr.books.count%></td>
-          <td><%= link_to 'Issue Log', profile_show_issue_history_path(usr.id), class: "btn pull-right"%></td>
+          <td><%= link_to 'View Log', profile_show_issue_history_path(usr.id), class: "btn pull-right"%></td>
           <td><%= link_to 'Details', edit_profile_path(usr.id), class: "btn pull-right"%></td>
           <td>
             <% unless usr.is_admin? %>

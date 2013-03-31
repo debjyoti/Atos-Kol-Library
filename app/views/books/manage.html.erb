@@ -22,7 +22,7 @@
         <td><%=book.id%></td>
         <td><%=book.title%></td>
         <td><%=book.author%></td>
-        <td><%=link_to 'Issue Log', book_show_issue_history_path(book.id), class: 'btn btn-small'%>
+        <td><%=link_to 'View Log', book_show_issue_history_path(book.id), class: 'btn btn-small'%>
         <td><%=link_to 'Edit', edit_book_path(book.id), class: 'btn btn-small'%>
         <td><%=link_to 'Remove', book_path(book.id), method: :delete, class: 'btn btn-small'%>
       </tr>
