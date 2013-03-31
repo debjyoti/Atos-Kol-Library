@@ -25,6 +25,7 @@ AoiLib::Application.routes.draw do
   resources :profiles, :except => [:new, :create] do
     put 'approve_user'
     put 'toggle_admin_rights'
+    get 'show_issue_history'
     collection do
       get 'show_fines'
       post 'charge_fine'

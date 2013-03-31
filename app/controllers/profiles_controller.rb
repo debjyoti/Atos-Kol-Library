@@ -126,7 +126,14 @@ class ProfilesController < ApplicationController
         format.html { render action: "show_fines"}
       end
     end
+  end
 
+  def show_issue_history
+    @usr = User.find(params[:profile_id])
+    @usr_issue_history = @usr.book_issue_histories.order("created_at desc")  
+    respond_to do |format|
+      format.html
+    end
   end
 
 end
