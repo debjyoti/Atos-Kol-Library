@@ -252,6 +252,14 @@ class BooksController < ApplicationController
     end
   end
 
+  def show_issue_history
+    @bk = Book.find(params[:book_id])
+    @bk_issue_history = @bk.book_issue_histories.order("created_at desc")  
+    respond_to do |format|
+      format.html
+    end
+  end
+
   private
 
   def set_up_category_selection
@@ -259,4 +267,5 @@ class BooksController < ApplicationController
     @category_list << SELECT_PROMPT
     @selected_category = SELECT_PROMPT
   end
+
 end

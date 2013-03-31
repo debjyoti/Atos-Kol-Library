@@ -11,7 +11,7 @@
       <th><strong>ID</strong></th>
       <th><strong>TITLE</strong></th>
       <th><strong>AUTHOR</strong></th>
-      <th><strong>AVAILABLE</strong></th>
+      <th></th>
       <th></th>
       <th></th>
     </tr>
@@ -22,11 +22,7 @@
         <td><%=book.id%></td>
         <td><%=book.title%></td>
         <td><%=book.author%></td>
-        <%if book.issued_on%>
-          <td>NO</td>
-        <%else%>
-          <td>YES</td>
-        <%end%>
+        <td><%=link_to 'Issue Log', book_show_issue_history_path(book.id), class: 'btn btn-small'%>
         <td><%=link_to 'Edit', edit_book_path(book.id), class: 'btn btn-small'%>
         <td><%=link_to 'Remove', book_path(book.id), method: :delete, class: 'btn btn-small'%>
       </tr>
