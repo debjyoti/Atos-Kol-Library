@@ -145,7 +145,7 @@ class BooksController < ApplicationController
       if bk.save
         redirect_to :back, notice: 'The book is blocked for you. You will be notified when it becomes available.'
       else
-        redirect_to :back, alert: bk.errors
+        redirect_to :back, alert: bk.errors.full_messages.to_s
       end
     end
   end
@@ -157,7 +157,7 @@ class BooksController < ApplicationController
       if bk.save
         redirect_to :back, notice: 'The book is unblocked.'
       else
-        redirect_to :back, alert: bk.errors
+        redirect_to :back, alert: bk.errors.full_messages.to_s
       end
     else
       redirect_to :back, alert: 'You are trying something funny. This will be reported.'

@@ -16,11 +16,48 @@
   <h4> There are no fined users at this time </h4>
 <%end%>
 
+<% if @spending_history.count > 0 %>
+  <br />
+  <hr>
+  <h4> Spending History </h4>
+  <table class = "table table-hover">
+    <thead>
+      <tr>
+        <th><strong>AMOUNT</strong></th>
+        <th><strong>DATE</strong></th>
+        <th><strong>SPENT ON</strong></th>
+        <th><strong>BY</strong></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @spending_history.each do |hist| %>
+        <tr>
+          <td><%=number_to_currency(hist.amount, unit: "र")%></th>
+          <td><%=hist.created_at.strftime("%d/%m/%Y")%> </th>
+          <td><%=hist.desc%></th>
+          <td><%=hist.user.try(:name)%></th>
+        </tr>
+      <%end%>
+    </tbody>
+  </table>
+<%end%>
+
 <% content_for :right_side_panel do %>
   <br \><br \> <br \><br \>
   <div class = "well">
-    <h4> My Pocket </h4>
-    <hr>
-    <h4> <%= number_to_currency(current_user.money, unit: "र")%> </h4>
+    <h4> My Pocket:  <%= number_to_currency(current_user.money, unit: "र")%> </h4>
+    <% if current_user.money > 0 %>
+      <hr>
+      <h5> Wanna Blow It? ;-D</h5>
+      <%= form_for @spending, :url => { :controller => 'profiles', :action => 'spend_money'}  do |f| %>
+        <%= f.hidden_field :user_id %>
+        <%= f.hidden_field :when %>
+        <%= f.label :amount , "Amount:"%>
+        <%= f.number_field :amount, class: 'input-small' %>
+        <%= f.label :desc, "What are you buying:"%>
+        <%= f.text_field :desc %>
+        <%= f.submit "Spend" %>
+      <% end %>
+    <%end%>
   </div>
 <%end%>

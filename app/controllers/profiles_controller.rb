@@ -24,7 +24,7 @@ class ProfilesController < ApplicationController
       UserMailer.account_activation_notify(usr.email).deliver
       redirect_to :back, notice: 'User '+usr.name+ ' approved.'
     else
-      redirect_to :back, alert: usr.errors
+      redirect_to :back, alert: usr.errors.full_messages.to_s
     end
   end
 
@@ -37,7 +37,7 @@ class ProfilesController < ApplicationController
     if @usr.update_attributes(params[:profile])
       redirect_to profiles_path
     else
-      redirect_to :back, alert: @usr.errors
+      redirect_to :back, alert: @usr.errors.full_messages.to_s
     end
   end
 
@@ -62,7 +62,7 @@ class ProfilesController < ApplicationController
     if usr.save
       redirect_to :back, notice: notice_text
     else
-      redirect_to :back, alert: usr.errors
+      redirect_to :back, alert: usr.errors.full_messages.to_s
     end
   end
 
@@ -90,7 +90,11 @@ class ProfilesController < ApplicationController
   end
 
   def show_fines
+    #anything i add here must be added in spend_money 'else' clause as there is a render
     @fined_users = User.where("fine > 0")
+    @spending_history = Spending.order("created_at desc")
+    @spending = Spending.new(user_id: current_user.id, when: DateTime::now())
+    # 'when' is redundant, because of 'created_at', but I am too lazy to remove it
   end
 
   def charge_fine
@@ -103,8 +107,26 @@ class ProfilesController < ApplicationController
     if (usr.save and current_user.save)
       redirect_to :back, notice: "Payment of Rs."+payment_amount.to_s+" has been successfully processed."
     else
-      redirect_to :back, alert: 'Error: '+usr.errors+", "+current_user.errors
+      redirect_to :back, alert: 'Error: '+usr.errors.full_messages.to_s+", "+current_user.errors.full_messages.to_s
     end
+  end
+
+  def spend_money
+    usr = User.find(current_user.id)
+    usr.money -= params[:spending][:amount].delete(',').to_f
+    @spending = Spending.new(params[:spending])
+
+    respond_to do |format|
+      if @spending.save and usr.save
+       format.html { redirect_to :show_fines_profiles, notice: 'Spending was successfully posted' }
+      else
+        @fined_users = User.where("fine > 0")
+        @spending_history = Spending.order("created_at desc")
+        flash.now[:alert] = "Error"+@spending.errors.full_messages.to_s+", "+usr.errors.full_messages.to_s
+        format.html { render action: "show_fines"}
+      end
+    end
+
   end
 
 end

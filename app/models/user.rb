@@ -18,6 +18,8 @@ class User < ActiveRecord::Base
 
   has_many :book_issue_histories
 
+  has_many :spendings
+
   def active_for_authentication?
     super && approved?
   end
