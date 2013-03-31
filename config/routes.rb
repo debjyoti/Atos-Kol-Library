@@ -4,12 +4,6 @@ AoiLib::Application.routes.draw do
   end
   root :to => redirect('/users/sign_in')
 
-  resources :profiles, :except => [:new, :create] do
-    put 'approve_user'
-    put 'toggle_admin_rights'
-  end
-  devise_for :users 
-
   resources :books do
     put 'send_request'
     put 'issue_to_user'
@@ -20,12 +14,22 @@ AoiLib::Application.routes.draw do
     put 'unblock'
 
     collection do
+      get 'filter_category'
       get 'manage'
       get 'show_pending_approvals'
       get 'show_issued'
-      get 'filter_category'
     end
   end
+
+  resources :profiles, :except => [:new, :create] do
+    put 'approve_user'
+    put 'toggle_admin_rights'
+    collection do
+      get 'show_fines'
+      post 'charge_fine'
+    end
+  end
+  devise_for :users 
 
   resources :categories
 

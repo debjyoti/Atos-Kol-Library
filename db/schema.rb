@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130328172359) do
+ActiveRecord::Schema.define(:version => 20130331061239) do
 
   create_table "book_issue_histories", :force => true do |t|
     t.integer  "book_id"
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(:version => 20130328172359) do
     t.string   "seat_number"
     t.integer  "max_book_count",         :default => 1
     t.integer  "admin_id"
+    t.decimal  "money",                  :default => 0.0
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

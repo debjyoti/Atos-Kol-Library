@@ -89,4 +89,22 @@ class ProfilesController < ApplicationController
     redirect_to :back, notice: 'User '+name+' removed'
   end
 
+  def show_fines
+    @fined_users = User.where("fine > 0")
+  end
+
+  def charge_fine
+    payment_amount = params[:payment_amount].delete(',').to_f
+    user_id = params[:user_id].to_i
+    usr = User.find(user_id)
+    usr.fine -= payment_amount
+    #assumption: current user money will not be nil, as the default value is 0
+    current_user.money += payment_amount
+    if (usr.save and current_user.save)
+      redirect_to :back, notice: "Payment of Rs."+payment_amount.to_s+" has been successfully processed."
+    else
+      redirect_to :back, alert: 'Error: '+usr.errors+", "+current_user.errors
+    end
+  end
+
 end
