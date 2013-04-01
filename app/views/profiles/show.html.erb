@@ -72,10 +72,10 @@
   <br \><br \>
   <% if @user_admin %>
     <div class="well">
-      <h4> Your Admin: </h4>
+      <h4> Administrator: </h4>
       <hr>
       <h6> <%= @user_admin.name %> </h6>
-      <h6> <%= @user_admin.email.gsub('@',' AT ') %> </h6>
+      <h6> <%= @user_admin.email %> </h6>
       <h6> Phone: <%= @user_admin.phone_number %> </h6>
       <h6> Location: <%= @user_admin.seat_number %> </h6>
     </div>

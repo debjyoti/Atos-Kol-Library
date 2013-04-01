@@ -3,10 +3,10 @@
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
 
-  <div><%= f.label :name, "Name" %>
+  <div><%= f.label :name, "Name:" %>
   <%= f.text_field :name %></div>
 
-  <div><%= f.label :das_id, "DAS-ID" %>
+  <div><%= f.label :das_id, "UserId (DAS-Id):" %>
   <%= f.text_field :das_id %></div>
 
   <div><%= f.label :email, "Atos email:" %>
@@ -30,4 +30,4 @@
   <div><%= f.submit "Sign up" %></div>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<!--<%= render "devise/shared/links" %>-->
