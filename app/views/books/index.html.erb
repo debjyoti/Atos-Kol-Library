@@ -10,22 +10,31 @@
   <%end%>
 <%end%>
 
-<% @books.each do |book| %>
-  <div class="well">
-    <h5><%= book.title %>
-  <% if book.user_id %>
-    <div class="pull-right"> <i class="icon-user"></i> <%= book.user.name %> till <%= book.expires_on %></div>
-  <%end%>
-    </h5>
-  <h6>- <%= book.author %>. 
-  <% if book.user_id %>
-    <% if book.user_id != current_user.id %>
-      <%= link_to 'Block', book_block_for_future_path(book.id), method: :put, class: "btn pull-right"%>
-    <%end%>
-  <%else%>
-    <%= link_to 'Request', book_send_request_path(book.id), method: :put, class: "btn pull-right"%>
-  <%end%>
-  </h6>
-  </div>
-  <br \>
-<% end %>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th><strong>TITLE</strong></th>
+      <th><strong>AUTHOR</strong></th>
+      <th><strong>AVAILABILITY</strong></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @books.each do |book| %>
+      <tr>
+        <td><%=book.title%></td>
+        <td><%=book.author%></td>
+        <% if book.user_id %>
+          <td>with <%=book.user.try(:name)%> till <%= book.expires_on.strftime("%d/%m/%Y") %></td>
+          <% if book.user_id != current_user.id %>
+            <td><%= link_to 'Block', book_block_for_future_path(book.id), method: :put, class: "btn pull-right"%></td>
+          <%end%>
+        <%else%>
+          <td>Available</td>
+          <td><%= link_to 'Request', book_send_request_path(book.id), method: :put, class: "btn pull-right"%></td>
+        <%end%>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
