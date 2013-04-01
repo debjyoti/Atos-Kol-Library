@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130331101029) do
+ActiveRecord::Schema.define(:version => 20130401143623) do
 
   create_table "book_issue_histories", :force => true do |t|
     t.integer  "book_id"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20130331101029) do
     t.boolean  "pending_approval"
     t.date     "expires_on"
     t.integer  "blocked_by_id"
+    t.string   "tag"
   end
 
   create_table "categories", :force => true do |t|

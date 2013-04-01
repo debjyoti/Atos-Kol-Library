@@ -20,6 +20,10 @@
     <%= f.text_field :author, class: 'input-xlarge' %>
   </div>
   <div class="field">
+    <%= f.label :tag %>
+    <%= f.text_field :tag %>
+  </div>
+  <div class="field">
     <%= f.label :category %>
     <%= f.collection_select :category_id, Category.all, :id, :name  %>
   </div>
