@@ -30,6 +30,7 @@ AoiLib::Application.routes.draw do
       get 'show_fines'
       post 'charge_fine'
       post 'spend_money'
+      put 'migrate_user'
     end
   end
   devise_for :users 

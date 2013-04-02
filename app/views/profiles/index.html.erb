@@ -67,3 +67,32 @@
 <%else%>
   <h5> You do not have any members yet. Approve a new user to become their administrator. </h5>
 <%end%>
+
+<br />
+<hr>
+
+<h4> Acquire Users: </h4>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>From Admin</th>
+      <th>User</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <%= form_tag migrate_user_profiles_path, method: :put do %>
+        <td>
+          <%= select_tag(:admin_name, options_for_select(@admin_list)) %> 
+        </td>
+        <td>
+          <%= select_tag(:user_name, options_for_select(@user_list,"ALL"), {disabled: 'true'}) %>
+        </td>
+        <td>
+          <%= submit_tag(:Migrate) %>
+        </td>
+      <%end%>
+    </tr>
+  </tbody>
+</table>

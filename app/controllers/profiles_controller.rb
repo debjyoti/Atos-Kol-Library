@@ -13,7 +13,10 @@ class ProfilesController < ApplicationController
 
   def index
     @unapproved_users = User.find_all_by_approved(false)
-    @users = current_user.members
+    @users = current_user.members.order(:name)
+    @admin_list = User.where("is_admin is true").pluck(:name)
+    @user_list = User.pluck(:name)
+    @user_list << "ALL"
   end
 
   def approve_user
@@ -134,6 +137,12 @@ class ProfilesController < ApplicationController
     respond_to do |format|
       format.html
     end
+  end
+
+  def migrate_user
+    admin_id = User.where("name = ?",params[:admin_name]).pluck(:id)
+    User.where("admin_id = ?",admin_id).update_all(:admin_id => current_user.id)
+    redirect_to :back, notice: "Users migrated successfully"
   end
 
 end
