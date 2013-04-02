@@ -5,4 +5,5 @@ class Book < ActiveRecord::Base
   has_many :book_issue_histories
   attr_accessible :category_id, :description, :title, :author, :tag #user_id, issued_on 
   validates :category_id, :title, :author, presence: true
+  validates :tag, presence: true, uniqueness: true
 end

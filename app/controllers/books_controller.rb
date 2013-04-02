@@ -35,7 +35,7 @@ class BooksController < ApplicationController
   end
 
   def manage
-    @books = Book.order(:id)
+    @books = Book.order(:tag)
 
     respond_to do |format|
       format.html # manage.html.erb
@@ -127,7 +127,7 @@ class BooksController < ApplicationController
       if bk.save
         bk.book_issue_histories.create(user_id: current_user.id, requested_on: DateTime::now())
         UserMailer.book_request_notify(bk.title, bk.user.name, current_user.admin.email).deliver
-        redirect_to :back, notice: 'Please collect the book.'
+        redirect_to :back, notice: 'Please collect the book from the administrator.'
       else
         redirect_to :back, alert: 'The operation failed. Please inform administrator.'
       end
