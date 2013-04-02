@@ -90,7 +90,7 @@
           <%= select_tag(:user_name, options_for_select(@user_list,"ALL"), {disabled: 'true'}) %>
         </td>
         <td>
-          <%= submit_tag(:Migrate) %>
+          <%= submit_tag(:Migrate, onclick: "return confirm('Are you sure?')") %>
         </td>
       <%end%>
     </tr>
