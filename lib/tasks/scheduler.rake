@@ -14,7 +14,11 @@ task :check_due_date => :environment do
         usr.errors.each { |err| puts err }
       end
     elsif(book.expires_on < (DateTime::now()+1))
-      UserMailer.due_date_notify(book.user.email, book.title, book.expires_on.to_s).deliver
+      if(book.blocked_by_id)
+        UserMailer.due_date_notify_blocked(book.user.email, book.title, book.expires_on.to_s, book.user.admin.email, book.blocked_by.email, book.blocked_by.name).deliver
+      else
+        UserMailer.due_date_notify(book.user.email, book.title, book.expires_on.to_s).deliver
+      end
     end
   end
   puts "End check_due_date task"
