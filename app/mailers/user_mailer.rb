@@ -27,10 +27,10 @@ class UserMailer < ActionMailer::Base
     mail(:to => to_email, :subject => "Book '"+book_name+"' is available.")
   end
 
-  def fine_notify(to_email, fine_amount, book_name)
+  def fine_notify(to_email, fine_amount, book_name, admin_email)
     @fine_amount = fine_amount
     @book_name = book_name
-    mail(:to => to_email, :subject => "IMPORTANT! Library Defaulter.")
+    mail(:to => to_email, :cc => admin_email, :subject => "IMPORTANT! Library Defaulter.")
   end
 
   def due_date_notify(to_email, book_name, book_due_date)

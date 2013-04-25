@@ -8,7 +8,7 @@ task :check_due_date => :environment do
       usr.fine += 5
       if usr.save
         puts usr.name+' fined.'
-        UserMailer.fine_notify(book.user.email, book.user.fine, book.title).deliver
+        UserMailer.fine_notify(book.user.email, book.user.fine, book.title, book.user.admin.email).deliver
       else
         puts usr.name+' could not be fined because of the following errors.'
         usr.errors.each { |err| puts err }
