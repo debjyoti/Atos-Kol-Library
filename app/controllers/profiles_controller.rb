@@ -7,7 +7,7 @@ class ProfilesController < ApplicationController
    @user_admin = current_user.admin
    if current_user.is_admin?
     @unapproved_users_count = User.where("approved = false").count
-    @books_to_lend_count = Book.where("pending_approval = true").count
+    @books_to_lend_count = Book.where("pending_approval = true and user_id in (select user_id from users where admin_id = ?)", current_user.id).count
    end
   end
 

@@ -249,7 +249,7 @@ class BooksController < ApplicationController
   end
 
   def show_issued
-    @books = Book.where("user_id is not null and pending_approval is false").order(:title)
+    @books = Book.where("user_id in (select user_id from users where admin_id = ?) and pending_approval = false", current_user.id).order(:title)
     respond_to do |format|
       format.html # show_issued_books.html.erb
       format.json { render json: @books }
@@ -257,7 +257,7 @@ class BooksController < ApplicationController
   end
 
   def show_pending_approvals
-    @books = Book.find_all_by_pending_approval(true)
+    @books = Book.where("user_id in (select user_id from users where admin_id = ?) and pending_approval = true", current_user.id).order(:title)
     respond_to do |format|
       format.html # show_pending_approvals.html.erb
       format.json { render json: @books }
