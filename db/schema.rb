@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130401143623) do
+ActiveRecord::Schema.define(:version => 20130509151604) do
 
   create_table "book_issue_histories", :force => true do |t|
     t.integer  "book_id"
@@ -27,14 +27,16 @@ ActiveRecord::Schema.define(:version => 20130401143623) do
     t.string   "title"
     t.integer  "user_id"
     t.date     "issued_on"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
     t.string   "author"
     t.integer  "category_id"
     t.boolean  "pending_approval"
     t.date     "expires_on"
     t.integer  "blocked_by_id"
     t.string   "tag"
+    t.string   "owner",            :default => "Atos"
+    t.boolean  "is_removed",       :default => false
   end
 
   create_table "categories", :force => true do |t|

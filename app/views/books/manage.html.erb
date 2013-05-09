@@ -11,6 +11,7 @@
       <th><strong>TAG</strong></th>
       <th><strong>TITLE</strong></th>
       <th><strong>AUTHOR</strong></th>
+      <th><strong>OWNER</strong></th>
       <th></th>
       <th></th>
       <th></th>
@@ -22,9 +23,14 @@
         <td><%=book.tag%></td>
         <td><%=book.title%></td>
         <td><%=book.author%></td>
+        <td><%=book.owner%></td>
         <td><%=link_to 'View Log', book_show_issue_history_path(book.id), class: 'btn btn-small'%></td>
         <td><%=link_to 'Edit', edit_book_path(book.id), class: 'btn btn-small'%></td>
-        <td><%=link_to 'Remove', book_path(book.id), method: :delete, class: 'btn btn-small'%></td>
+        <% unless book.is_removed %>
+          <td><%=link_to 'Remove', book_path(book.id), method: :delete, class: 'btn btn-small'%></td>
+        <% else %>
+          <td><%=link_to 'BringBack', book_bring_back_path(book.id), method: :put, class: 'btn btn-small'%></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

@@ -13,6 +13,7 @@ AoiLib::Application.routes.draw do
     put 'block_for_future'
     put 'unblock'
     get 'show_issue_history'
+    put 'bring_back'
 
     collection do
       get 'filter_category'

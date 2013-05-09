@@ -24,6 +24,10 @@
     <%= f.text_field :tag %>
   </div>
   <div class="field">
+    <%= f.label :owner %>
+    <%= f.text_field :owner %>
+  </div>
+  <div class="field">
     <%= f.label :category %>
     <%= f.collection_select :category_id, Category.all, :id, :name  %>
   </div>

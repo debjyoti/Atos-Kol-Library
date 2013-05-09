@@ -7,7 +7,7 @@ class BooksController < ApplicationController
   SELECT_PROMPT = 'Select Category'
 
   def index
-    @books = Book.order(:title)
+    @books = Book.where("is_removed = false").order(:title)
     set_up_category_selection
 
     respond_to do |format|
@@ -19,11 +19,11 @@ class BooksController < ApplicationController
   def filter_category
     @selected_category = params[:category_name]
     if(@selected_category == 'All' or @selected_category == SELECT_PROMPT)
-      @books = Book.order(:title)
+      @books = Book.where("is_removed = false").order(:title)
     else
       cat = Category.find_by_name(params[:category_name])
       #assumption: category_name will always exist in category table
-      @books = cat.books.order(:title)
+      @books = cat.books.where("is_removed=false").order(:title)
     end
     @category_list = Category.pluck(:name)
     @category_list << 'All'
@@ -105,9 +105,21 @@ class BooksController < ApplicationController
   # DELETE /books/1
   # DELETE /books/1.json
   def destroy
-    @book = Book.find(params[:id])
-    @book.destroy
+    book = Book.find(params[:id])
+    book.is_removed = true
+    book.save
+    #@book.destroy
 
+    respond_to do |format|
+      format.html { redirect_to manage_books_url, notice: 'The book '+book.title+' belonging to '+book.owner+' has been removed.' }
+      format.json { head :no_content }
+    end
+  end
+
+  def bring_back
+    @book = Book.find(params[:book_id])
+    @book.is_removed = false
+    @book.save
     respond_to do |format|
       format.html { redirect_to manage_books_url }
       format.json { head :no_content }
